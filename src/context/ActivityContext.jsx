@@ -1,49 +1,70 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
-import ActivityReducer from "../reducers/ActivityReducer";
-import { getToken, getDataset, sanitizeActivities } from "../api/api";
+import React, { createContext, useReducer, useEffect, useContext } from 'react';
+import ActivityReducer from "../reducer/ActivityReducer";
+import { getToken, getDataset, sanitizeActivities } from '../api/api';
 
-const ActivityContext = createContext();
+export const ActivityContext = createContext();
 
-const initialState = {
-  activities: [],
-  loading: true,
-};
+const STUDENT_ID = 'E0423037';
+const PASSWORD = '801597';
+const SET = 'setB';
 
 export const ActivityProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(ActivityReducer, initialState);
+  const [state, dispatch] = useReducer(ActivityReducer, {
+    activities: [],
+    loading: true,
+    error: null,
+  });
 
+  // Fetch data on app load
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const tokenRes = await getToken("E0423037", "801597", "B");
+        // Step 1: Get token (with set parameter)
+        const tokenResponse = await getToken(STUDENT_ID, PASSWORD, SET);
 
-        const raw = await getDataset(tokenRes.token, tokenRes.dataUrl);
-
-        const data = sanitizeActivities(raw);
-
-        dispatch({ type: "SET_DATA", payload: data });
-      } catch (err) {
-        console.error("ERROR:", err);
+        // Step 2: Get dataset
+        const rawData = await getDataset(tokenResponse.token, tokenResponse.dataUrl);
+        
+        // Step 3: Sanitize data
+        const sanitizedData = sanitizeActivities(rawData);
+        
+        dispatch({ type: 'SET_DATA', payload: sanitizedData });
+      } catch (error) {
+        const errorMsg = error.response?.data?.message || error.message || 'Failed to fetch data';
+        console.error('Error in fetchData:', errorMsg);
+        dispatch({
+          type: 'SET_ERROR',
+          payload: errorMsg,
+        });
       }
     };
 
     fetchData();
   }, []);
 
-  const toggleGoal = (id) =>
-    dispatch({ type: "TOGGLE_GOAL", payload: id });
+  const toggleGoal = (activityId) => {
+    dispatch({ type: 'TOGGLE_GOAL', payload: activityId });
+  };
+
+  const value = {
+    activities: state.activities,
+    loading: state.loading,
+    error: state.error,
+    dispatch,
+    toggleGoal,
+  };
 
   return (
-    <ActivityContext.Provider
-      value={{
-        activities: state.activities,
-        loading: state.loading,
-        toggleGoal,
-      }}
-    >
+    <ActivityContext.Provider value={value}>
       {children}
     </ActivityContext.Provider>
   );
 };
 
-export const useActivity = () => useContext(ActivityContext);
+export const useActivity = () => {
+  const context = useContext(ActivityContext);
+  if (!context) {
+    throw new Error('useActivity must be used within ActivityProvider');
+  }
+  return context;
+};

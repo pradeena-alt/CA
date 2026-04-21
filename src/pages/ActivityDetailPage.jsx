@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useActivity } from "../contexts/ActivityContext";
+import { useActivity } from "../context/ActivityContext";
 
 const ActivityDetailPage = () => {
   const { id } = useParams();

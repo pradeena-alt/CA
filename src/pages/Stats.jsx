@@ -1,15 +1,16 @@
-import { useContext, useEffect } from "react";
-import { ActivityContext } from "../context/ActivityContext";
+import { useEffect } from "react";
+import { useActivity } from "../context/ActivityContext";
 
 function Stats() {
-  const { activities } = useContext(ActivityContext);
+  const { activities } = useActivity();
 
   const stats = activities.reduce(
     (acc, a) => {
       if (
         a.steps > 0 &&
         a.caloriesBurned > 0 &&
-        a.workoutMinutes > 0
+        a.workoutMinutes > 0 &&
+        typeof a.goalAchieved === "boolean"
       ) {
         acc.total++;
 
@@ -31,10 +32,13 @@ function Stats() {
   }, [stats]);
 
   return (
-    <div>
-      <div data-testid="total-activities">{stats.total}</div>
-      <div data-testid="goal-achieved">{stats.achieved}</div>
-      <div data-testid="goal-not-achieved">{stats.notAchieved}</div>
+    <div style={{ padding: "20px" }}>
+      <h1>📊 Activity Stats</h1>
+      <div style={{ fontSize: "18px", marginTop: "20px" }}>
+        <p data-testid="total-activities">Total Activities: <strong>{stats.total}</strong></p>
+        <p data-testid="goal-achieved">Goals Achieved: <strong>{stats.achieved}</strong></p>
+        <p data-testid="goal-not-achieved">Goals Not Achieved: <strong>{stats.notAchieved}</strong></p>
+      </div>
     </div>
   );
 }

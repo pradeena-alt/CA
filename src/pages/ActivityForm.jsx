@@ -1,9 +1,9 @@
-import React, { useState, useContext } from "react";
-import { ActivityContext } from "../contexts/ActivityContext";
+import React, { useState } from "react";
+import { useActivity } from "../context/ActivityContext";
 import { v4 as uuidv4 } from "uuid";
 
 const ActivityForm = () => {
-  const { addActivity } = useContext(ActivityContext);
+  const { dispatch } = useActivity();
   const [activity, setActivity] = useState({
     name: "",
     steps: "",
@@ -38,7 +38,7 @@ const ActivityForm = () => {
       workoutMinutes: Math.max(0, Number(activity.workoutMinutes) || 0),
     };
 
-    addActivity(newActivity);
+    dispatch({ type: "ADD_ACTIVITY", payload: newActivity });
     setActivity({
       name: "",
       steps: "",

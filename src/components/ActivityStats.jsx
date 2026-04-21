@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useActivity } from "../contexts/ActivityContext";
+import { useActivity } from "../context/ActivityContext";
 
 const ActivityStats = () => {
   const { activities } = useActivity();

@@ -1,5 +1,5 @@
 import React from "react";
-import { useActivity } from "../contexts/ActivityContext";
+import { useActivity } from "../context/ActivityContext";
 import ActivityCard from "../components/ActivityCard";
 
 const Achievements = () => {

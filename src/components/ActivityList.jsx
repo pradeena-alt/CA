@@ -1,4 +1,4 @@
-import { useActivity } from "../contexts/ActivityContext";
+import { useActivity } from "../context/ActivityContext";
 import ActivityCard from "./ActivityCard";
 
 const ActivityList = () => {

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useActivity } from "../contexts/ActivityContext";
+import { useActivity } from "../context/ActivityContext";
 import { Link } from "react-router-dom";
 import ActivityCard from "../components/ActivityCard";
 

@@ -1,7 +1,16 @@
 export default function ActivityReducer(state, action) {
   switch (action.type) {
     case "SET_DATA":
-      return { ...state, activities: action.payload };
+      return { ...state, activities: action.payload, loading: false };
+
+    case "SET_ERROR":
+      return { ...state, error: action.payload, loading: false };
+
+    case "ADD_ACTIVITY":
+      return {
+        ...state,
+        activities: [...state.activities, action.payload],
+      };
 
     case "TOGGLE_GOAL":
       return {
