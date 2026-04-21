@@ -1,15 +1,14 @@
 import React from "react";
-
-import MovieList from "../components/MovieList";
-import MovieForm from "./MovieForm";
+import ActivityList from "../components/ActivityList";
+import ActivityForm from "./ActivityForm";
 
 const Home = () => (
   <div className="app-container" data-testid="home-page">
     <h1 className="main-title" data-testid="app-title">
-      🎬 Movie Wishlist
+      🏃 Fitness Tracker Activities
     </h1>
-    <MovieForm />
-    <MovieList />
+    <ActivityForm />
+    <ActivityList />
   </div>
 );
 

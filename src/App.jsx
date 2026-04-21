@@ -1,16 +1,20 @@
-import React, { useState } from "react";
-import MovieList from "./components/MovieList.jsx";
-import MovieStats from "./components/MovieStats";
-import "./App.css";
-import AppRouter from "./routers/AppRouter.jsx";
-import { MovieProvider } from "./context/MovieContext.jsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Activities from "./pages/Activities";
+import Stats from "./pages/Stats";
+import FilterPage from "./pages/FilterPage";
+import ActivityDetailPage from "./pages/ActivityDetailPage";
 
-const App = () => {
+function App() {
   return (
-    <MovieProvider>
-      <AppRouter />
-    </MovieProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/activities" element={<Activities />} />
+        <Route path="/activities/:id" element={<ActivityDetailPage />} />
+        <Route path="/filter" element={<FilterPage />} />
+        <Route path="/stats" element={<Stats />} />
+      </Routes>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;
