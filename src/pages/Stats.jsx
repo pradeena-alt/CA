@@ -33,7 +33,7 @@ function Stats() {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1>📊 Activity Stats</h1>
+      <h1>Activity Stats</h1>
       <div style={{ fontSize: "18px", marginTop: "20px" }}>
         <p data-testid="total-activities">Total Activities: <strong>{stats.total}</strong></p>
         <p data-testid="goal-achieved">Goals Achieved: <strong>{stats.achieved}</strong></p>

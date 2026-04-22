@@ -56,7 +56,7 @@ const ActivityDetailPage = () => {
 
           <p data-testid="activity-detail-goal">
             <strong>Goal Status:</strong>{" "}
-            {activity.goalAchieved ? "✅ Achieved" : "❌ Not Achieved"}
+            {activity.goalAchieved ? "Achieved" : "Not Achieved"}
           </p>
         </div>
 

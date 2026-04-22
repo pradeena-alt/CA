@@ -45,7 +45,7 @@ function FilterPage() {
   if (loading) {
     return (
       <div style={{ padding: "20px" }}>
-        <h1>🔍 Filter Activities</h1>
+        <h1>Filter Activities</h1>
         <p>Loading activities...</p>
       </div>
     );
@@ -54,7 +54,7 @@ function FilterPage() {
   if (!activities.length) {
     return (
       <div style={{ padding: "20px" }}>
-        <h1>🔍 Filter Activities</h1>
+        <h1>Filter Activities</h1>
         <p>No activities available to filter</p>
       </div>
     );
@@ -62,7 +62,7 @@ function FilterPage() {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1>🔍 Filter Activities</h1>
+      <h1>Filter Activities</h1>
       
       <div style={{ marginBottom: "20px" }}>
         <label htmlFor="steps-filter">Filter by minimum steps: </label>
