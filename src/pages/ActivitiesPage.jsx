@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import ActivityCard from "../components/ActivityCard";
 
 const ActivitiesPage = () => {
-  const { activities } = useActivity();
+  const { activities, loading, error } = useActivity();
 
   // Filter valid activities using .filter()
   const validActivities = activities.filter((activity) => {
@@ -32,11 +32,38 @@ const ActivitiesPage = () => {
     };
   }, [validActivities]);
 
+  if (loading) {
+    return (
+      <div className="app-container" data-testid="activities-page">
+        <h1>Valid Activities</h1>
+        <p>Loading activities...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="app-container" data-testid="activities-page">
+        <h1>Valid Activities</h1>
+        <p style={{ color: "red" }}>Error: {error}</p>
+      </div>
+    );
+  }
+
+  if (!activities.length) {
+    return (
+      <div className="app-container" data-testid="activities-page">
+        <h1>Valid Activities</h1>
+        <p>No activities fetched from API</p>
+      </div>
+    );
+  }
+
   if (!validActivities.length) {
     return (
       <div className="app-container" data-testid="activities-page">
         <h1>Valid Activities</h1>
-        <p data-testid="no-activities">No valid activities found</p>
+        <p data-testid="no-activities">No valid activities found (raw count: {activities.length})</p>
       </div>
     );
   }

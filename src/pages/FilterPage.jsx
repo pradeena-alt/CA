@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useActivity } from "../context/ActivityContext";
 import ActivityCard from "../components/ActivityCard";
 
 function FilterPage() {
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
-  const { activities } = useActivity();
+  const { activities, loading } = useActivity();
+
+  useEffect(() => {
+    console.log("FilterPage - activities:", activities);
+    console.log("FilterPage - loading:", loading);
+  }, [activities, loading]);
 
   // Get valid activities first
   const validActivities = activities.filter((a) => {
@@ -16,6 +21,8 @@ function FilterPage() {
       typeof a.goalAchieved === "boolean"
     );
   });
+
+  console.log("FilterPage - validActivities:", validActivities);
 
   // Filter by steps
   let filteredActivities = validActivities;
@@ -33,6 +40,24 @@ function FilterPage() {
     }
   } else {
     setError("");
+  }
+
+  if (loading) {
+    return (
+      <div style={{ padding: "20px" }}>
+        <h1>🔍 Filter Activities</h1>
+        <p>Loading activities...</p>
+      </div>
+    );
+  }
+
+  if (!activities.length) {
+    return (
+      <div style={{ padding: "20px" }}>
+        <h1>🔍 Filter Activities</h1>
+        <p>No activities available to filter</p>
+      </div>
+    );
   }
 
   return (
@@ -59,7 +84,9 @@ function FilterPage() {
       )}
 
       {!input && (
-        <p style={{ marginBottom: "20px" }}>Showing all valid activities</p>
+        <p style={{ marginBottom: "20px" }}>
+          Showing all {validActivities.length} valid activities
+        </p>
       )}
 
       {input && !error && (
@@ -69,10 +96,12 @@ function FilterPage() {
       )}
 
       <div>
-        {!filteredActivities.length && input && !error ? (
+        {filteredActivities.length === 0 && input && !error ? (
           <p>No activities found with {input}+ steps</p>
+        ) : filteredActivities.length === 0 && !input ? (
+          <p>No valid activities available</p>
         ) : (
-          <div>
+          <div style={{ display: "grid", gap: "15px" }}>
             {filteredActivities.map((activity) => (
               <ActivityCard key={activity.activityId} activity={activity} />
             ))}

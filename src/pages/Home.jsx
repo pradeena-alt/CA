@@ -5,7 +5,7 @@ import ActivityForm from "./ActivityForm";
 const Home = () => (
   <div className="app-container" data-testid="home-page">
     <h1 className="main-title" data-testid="app-title">
-      🏃 Fitness Tracker Activities
+      Fitness Tracker Activities
     </h1>
     <ActivityForm />
     <ActivityList />

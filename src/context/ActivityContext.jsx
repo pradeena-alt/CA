@@ -19,19 +19,26 @@ export const ActivityProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log('Starting data fetch...');
         // Step 1: Get token (with set parameter)
         const tokenResponse = await getToken(STUDENT_ID, PASSWORD, SET);
+        console.log('Token response:', tokenResponse);
 
         // Step 2: Get dataset
         const rawData = await getDataset(tokenResponse.token, tokenResponse.dataUrl);
+        console.log('Raw data from API:', rawData);
+        console.log('Raw data length:', rawData?.length);
         
         // Step 3: Sanitize data
         const sanitizedData = sanitizeActivities(rawData);
+        console.log('Sanitized data:', sanitizedData);
+        console.log('Sanitized data length:', sanitizedData?.length);
         
         dispatch({ type: 'SET_DATA', payload: sanitizedData });
       } catch (error) {
         const errorMsg = error.response?.data?.message || error.message || 'Failed to fetch data';
         console.error('Error in fetchData:', errorMsg);
+        console.error('Full error object:', error);
         dispatch({
           type: 'SET_ERROR',
           payload: errorMsg,
