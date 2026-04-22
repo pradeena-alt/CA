@@ -10,7 +10,7 @@ const Achievements = () => {
   return (
     <div className="app-container" data-testid="achievements-page">
       <h1 className="main-title" data-testid="achievements-title">
-        🏆 Achievements
+        Achievements
       </h1>
 
       <div className="achievements-list" data-testid="achievements-list">
