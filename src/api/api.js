@@ -57,20 +57,28 @@ export const getDataset = async (token, dataUrl) => {
     },
   });
 
-  return response.data.data;
+  // Handle nested data structure: response.data.data.activities
+  const responseData = response.data.data;
+  if (responseData.activities && Array.isArray(responseData.activities)) {
+    return responseData.activities;
+  }
+  
+  // Fallback for different structure
+  return Array.isArray(responseData) ? responseData : [];
 };
 
 /**
  * Validate individual activity
  */
 export const validateActivity = (activity) => {
-  if (!activity.activityId || !activity.name) {
+  // Only skip if activityId is missing
+  if (!activity || !activity.activityId) {
     return null;
   }
 
   return {
     activityId: activity.activityId,
-    name: String(activity.name).trim() || "Unknown",
+    name: String(activity.name || "").trim() || "Unknown",
     steps: Math.max(0, Number(activity.steps) || 0),
     caloriesBurned: Math.max(0, Number(activity.caloriesBurned) || 0),
     workoutMinutes: Math.max(0, Number(activity.workoutMinutes) || 0),
